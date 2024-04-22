@@ -7,4 +7,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('/series', SeriesController::class);
+Route::resource('/series', SeriesController::class)->except('show');

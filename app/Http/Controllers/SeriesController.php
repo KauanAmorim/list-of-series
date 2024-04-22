@@ -24,7 +24,8 @@ class SeriesController extends Controller
     public function store(Request $request)
     {
         Serie::create($request->all());
-        return to_route('series.index');
+        return to_route('series.index')
+            ->with('success.message', "Série '$request->nome' adicionada com sucesso");
     }
 
     public function destroy(Serie $series, Request $request)

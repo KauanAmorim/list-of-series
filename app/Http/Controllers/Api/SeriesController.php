@@ -9,9 +9,18 @@ use Illuminate\Http\Request;
 
 class SeriesController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return Series::all();
+
+        if($request->has('nome')) {
+            $series = Series::whereNome($request->nome)->get();
+            if ($series->isEmpty()) {
+                return response()->json(['message' => 'Series not found'], 404);
+            }
+            return $series;
+        }
+
+        return Series::paginate(5);
     }
 
     public function store(SeriesFormRequest $request)
@@ -23,6 +32,9 @@ class SeriesController extends Controller
     public function show(int $series)
     {
         $series = Series::whereId($series)->first();
+        if (empty($series)) {
+            return response()->json(['message' => 'Series not found'], 404);
+        }
         return $series;
     }
 
